@@ -1,6 +1,9 @@
 src-git packages https://github.com/coolsnowwolf/packages
 #src-git luci https://github.com/coolsnowwolf/luci
-src-git luci https://github.com/coolsnowwolf/luci.git;openwrt-23.05
+
+#暂时弃用lede的luci
+#src-git luci https://github.com/coolsnowwolf/luci.git;openwrt-23.05
+
 src-git routing https://github.com/coolsnowwolf/routing
 src-git telephony https://github.com/coolsnowwolf/telephony.git
 #src-git helloworld https://github.com/fw876/helloworld.git
@@ -9,3 +12,9 @@ src-git telephony https://github.com/coolsnowwolf/telephony.git
 #src-git targets https://github.com/openwrt/targets.git
 #src-git oldpackages http://git.openwrt.org/packages.git
 #src-link custom /usr/src/openwrt/custom-feed
+
+
+#修改luci体验lienol的丝滑
+src-git luci https://github.com/Lienol/openwrt-luci.git;24.10
+
+
