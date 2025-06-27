@@ -1,7 +1,8 @@
 define Device/EmmcImage
 	IMAGES += factory.bin recovery.bin
-	IMAGE/factory.bin := append-kernel | pad-to 12288k | append-rootfs | append-metadata
-	IMAGE/recovery.bin := append-kernel | pad-to 6144k | append-rootfs | append-metadata
+	# IMAGE/factory.bin := append-kernel | pad-to 12288k | append-rootfs | append-metadata
+	# IMAGE/recovery.bin := append-kernel | pad-to 6144k | append-rootfs | append-metadata
+ 	IMAGE/factory.bin := append-kernel | pad-to 6144k | append-rootfs | append-metadata
 	IMAGE/sysupgrade.bin/squashfs := append-rootfs | pad-to 64k | sysupgrade-tar rootfs=$$$$@ | append-metadata
 endef
 
@@ -56,36 +57,21 @@ define Device/jdcloud_re-cs-02
 endef
 TARGET_DEVICES += jdcloud_re-cs-02
 
-# define Device/jdcloud_re-cs-07
-# 	$(call Device/FitImage)
-# 	$(call Device/EmmcImage)
-# 	DEVICE_VENDOR := JDCloud
-# 	DEVICE_MODEL := ER1
-# 	SOC := ipq6010
-# 	BLOCKSIZE := 64k
-# 	KERNEL_SIZE := 6144k
-# 	DEVICE_DTS_CONFIG := config@cp03-c4
-# 	DEVICE_PACKAGES := -kmod-ath11k-ahb -ath11k-firmware-ipq6018
-# endef
-# TARGET_DEVICES += jdcloud_re-cs-07
-
-
-
 define Device/jdcloud_re-cs-07
 	$(call Device/FitImage)
+	$(call Device/EmmcImage)
 	DEVICE_VENDOR := JDCloud
-	DEVICE_MODEL := RE-CS-07
-	KERNEL_SIZE := 6144k
-	BLOCKSIZE := 128k
+	DEVICE_MODEL := ER1
 	SOC := ipq6010
+	BLOCKSIZE := 64k
+	KERNEL_SIZE := 6144k
 	DEVICE_DTS_CONFIG := config@cp03-c4
-	DEVICE_DTS := ipq6010-jdcloud-re-cs-07
-	DEVICE_PACKAGES := -ath11k-firmware-ipq6018 -ath11k-firmware-qcn9074 -kmod-ath11k -kmod-ath11k-ahb -kmod-ath11k-pci -hostapd-common -wpad-openssl
-	IMAGES := factory.bin sysupgrade.bin
-	IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-rootfs | append-metadata
-	IMAGE/sysupgrade.bin/squashfs := append-rootfs | pad-to 64k | sysupgrade-tar rootfs=$$$$@ | append-metadata
+	DEVICE_PACKAGES := -kmod-ath11k-ahb -ath11k-firmware-ipq6018
 endef
 TARGET_DEVICES += jdcloud_re-cs-07
+
+
+
 
 
 
