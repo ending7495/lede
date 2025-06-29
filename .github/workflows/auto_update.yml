@@ -3,7 +3,7 @@ name: Auto Sync Upstream
 on:
   schedule:
     - cron: '0 2 * * *' # 每天凌晨2点（UTC），北京时间上午10点自动同步
-  workflow_dispatch:     # 支持手动触发
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout your repo
         uses: actions/checkout@v4
         with:
-          persist-credentials: false  # 用于防止覆盖 token
+          persist-credentials: false
 
       - name: Set up Git
         run: |
@@ -27,7 +27,7 @@ jobs:
       - name: Merge upstream changes
         run: |
           git checkout master
-          git merge --no-edit upstream/master || (echo "Merge conflict, please resolve manually." && exit 1)
+          git merge --allow-unrelated-histories --no-edit upstream/master || (echo "Merge conflict, please resolve manually." && exit 1)
 
       - name: Push to your repo
         if: success()
