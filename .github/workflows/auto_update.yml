@@ -3,32 +3,37 @@ name: Auto Sync Upstream
 on:
   schedule:
     - cron: '0 2 * * *' # 每天凌晨2点（UTC），北京时间上午10点自动同步
-  workflow_dispatch:
+  workflow_dispatch:     # 支持手动触发
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      # 1. 拉取你自己的仓库
       - name: Checkout your repo
         uses: actions/checkout@v4
         with:
           persist-credentials: false
 
+      # 2. 设置 Git 用户信息
       - name: Set up Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      # 3. 添加上游 remote 并 fetch
       - name: Add upstream remote
         run: |
           git remote add upstream https://github.com/coolsnowwolf/lede.git
           git fetch upstream
 
+      # 4. 合并上游变更到你自己的 master 分支（保留你自己的 commit）
       - name: Merge upstream changes
         run: |
           git checkout master
           git merge --allow-unrelated-histories --no-edit upstream/master || (echo "Merge conflict, please resolve manually." && exit 1)
 
+      # 5. 推送到你自己的仓库
       - name: Push to your repo
         if: success()
         env:
