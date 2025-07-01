@@ -3,17 +3,29 @@ name: Sync Upstream With Local Priority
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *'
+    - cron: '0 3 * * *'  # 每天凌晨3点自动同步
 
 jobs:
+  cleanup-workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete all previous workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          retain_days: 0
+          keep_minimum_runs: 0
+
   sync:
+    needs: cleanup-workflows
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repo
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: true
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up git
         run: |
@@ -28,16 +40,15 @@ jobs:
       # 备份本地优先文件
       - name: Backup local-priority files
         run: |
-          mkdir -p .sync-backup
+          mkdir -p .sync-backup/dts
           cp -f package/lean/default-settings/files/zzz-default-settings .sync-backup/zzz-default-settings || true
           cp -f feeds.conf.default .sync-backup/feeds.conf.default || true
-          mkdir -p .sync-backup/dts
           cp -f target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6010-re-cs-07.dts .sync-backup/dts/ipq6010-re-cs-07.dts || true
 
       # 合并上游，遇到冲突以 theirs（上游）为主
       - name: Merge upstream/master (theirs)
         run: |
-          git checkout master   # 如果你的主分支是 main，请改为 main
+          git checkout master
           git merge upstream/master -X theirs --allow-unrelated-histories || true
 
       # 恢复本地优先文件
@@ -66,7 +77,7 @@ jobs:
       - name: Commit and push changes
         if: steps.checkfiles.outcome == 'success'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add package/lean/default-settings/files/zzz-default-settings feeds.conf.default target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6010-re-cs-07.dts || true
           git commit -am "Auto sync upstream (with local priority for zzz-default-settings, feeds.conf.default, ipq6010-re-cs-07.dts)" || true
