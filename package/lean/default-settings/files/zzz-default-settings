@@ -68,7 +68,7 @@ sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
 
 # 修改系统显示版本号
 sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
-echo "DISTRIB_REVISION='R25.5.25'" >> /etc/openwrt_release
+echo "DISTRIB_REVISION='R25.8.8'" >> /etc/openwrt_release
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='LEDE '" >> /etc/openwrt_release
 
