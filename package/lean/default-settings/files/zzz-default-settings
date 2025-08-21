@@ -62,14 +62,17 @@ sed -i '/check_signature/d' /etc/opkg.conf
 # 删除端口53重定向（可选）
 sed -i '/REDIRECT --to-ports 53/d' /etc/firewall.user
 
+# 启用无线（移除禁用选项）
+sed -i '/option disabled/d' /etc/config/wireless
+sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
+
+# 修改系统显示版本号
 sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
 echo "DISTRIB_REVISION='R25.5.25'" >> /etc/openwrt_release
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='LEDE '" >> /etc/openwrt_release
 
-sed -i '/OPENWRT_RELEASE/d' /usr/lib/os-release
-echo 'OPENWRT_RELEASE="LEDE R25.8.8"' >> /usr/lib/os-release
-
+# 禁用 dnsmasq 日志写入
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 
