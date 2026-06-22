@@ -10,10 +10,7 @@ platform_check_image() {
 
 platform_do_upgrade() {
 	case "$(board_name)" in
-	anysafe,e1)
-		CI_UBIPART="rootfs"
-		nand_do_upgrade "$1"
-		;;
+	anysafe,e1|\
 	cmiot,ax18|\
 	glinet,gl-ax1800|\
 	glinet,gl-axt1800|\
