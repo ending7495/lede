@@ -9,9 +9,9 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=https://w1.fi/hostap.git
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2025-08-26
-PKG_SOURCE_VERSION:=ca266cc24d8705eb1a2a0857ad326e48b1408b20
-PKG_MIRROR_HASH:=cccbb170ca289ad4505a399747c6503fd479ee5a6b836fa0174f727fb400d8df
+PKG_SOURCE_DATE:=2024-09-15
+PKG_SOURCE_VERSION:=5ace39b0a4cdbe18ddbc4e18f80ee3876233c20b
+PKG_MIRROR_HASH:=fb845d06e0440034300bce36db10afc261371176923acc1cff7b3e32f745da47
 
 PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
 PKG_LICENSE:=BSD-3-Clause
@@ -89,8 +89,7 @@ endif
 
 CORE_DEPENDS = +ucode +libucode \
 	+ucode-mod-fs +ucode-mod-nl80211 +ucode-mod-rtnl +ucode-mod-ubus +ucode-mod-uloop \
-	+libubus +libblobmsg-json \
-	+libudebug
+	+libubus +libblobmsg-json
 OPENSSL_DEPENDS = +PACKAGE_$(1):libopenssl +PACKAGE_$(1):libopenssl-legacy
 
 DRIVER_MAKEOPTS= \
@@ -414,7 +413,7 @@ define Package/wpa-supplicant/Default
   TITLE:=WPA Supplicant
   URL:=https://w1.fi/wpa_supplicant/
   DEPENDS:=$(DRV_DEPENDS) +hostapd-common $(CORE_DEPENDS)
-  EXTRA_DEPENDS:=hostapd-common (=$(PKG_VERSION)-$(PKG_RELEASE))
+  EXTRA_DEPENDS:=hostapd-common (=$(PKG_VERSION)-r$(PKG_RELEASE))
   USERID:=network=101:network=101
   PROVIDES:=wpa-supplicant
   CONFLICTS:=$(SUPPLICANT_PROVIDERS)
@@ -726,10 +725,10 @@ endef
 define Package/hostapd-common/install
 	$(INSTALL_DIR) \
 	  $(1)/etc/capabilities \
+	  $(1)/etc/rc.button \
 	  $(1)/etc/hotplug.d/ieee80211 \
 	  $(1)/etc/init.d $(1)/lib/netifd \
-	  $(1)/usr/share/acl.d \
-	  $(1)/usr/share/hostap
+	  $(1)/usr/share/acl.d
 	$(INSTALL_BIN) ./files/dhcp-get-server.sh $(1)/lib/netifd/dhcp-get-server.sh
 	$(INSTALL_BIN) ./files/wpad.init $(1)/etc/init.d/wpad
 	$(INSTALL_DATA) ./files/wpad_acl.json $(1)/usr/share/acl.d
