@@ -137,7 +137,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  			dev_err(&lynx->mdio->dev,
 --- a/drivers/net/phy/phylink.c
 +++ b/drivers/net/phy/phylink.c
-@@ -3545,20 +3545,20 @@ EXPORT_SYMBOL_GPL(phylink_mii_c22_pcs_en
+@@ -3546,20 +3546,20 @@ EXPORT_SYMBOL_GPL(phylink_mii_c22_pcs_en
  /**
   * phylink_mii_c22_pcs_config() - configure clause 22 PCS
   * @pcs: a pointer to a &struct mdio_device.
@@ -162,7 +162,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	bool changed = 0;
  	u16 bmcr;
  	int ret, adv;
-@@ -3572,7 +3572,6 @@ int phylink_mii_c22_pcs_config(struct md
+@@ -3573,7 +3573,6 @@ int phylink_mii_c22_pcs_config(struct md
  		changed = ret;
  	}
  

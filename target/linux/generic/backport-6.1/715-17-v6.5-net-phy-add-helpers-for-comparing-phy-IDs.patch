@@ -54,7 +54,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
  		return (dt * 400) / 10;
 --- a/drivers/net/phy/phy_device.c
 +++ b/drivers/net/phy/phy_device.c
-@@ -422,8 +422,7 @@ int phy_unregister_fixup(const char *bus
+@@ -461,8 +461,7 @@ int phy_unregister_fixup(const char *bus
  		fixup = list_entry(pos, struct phy_fixup, list);
  
  		if ((!strcmp(fixup->bus_id, bus_id)) &&
@@ -64,7 +64,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
  			list_del(&fixup->list);
  			kfree(fixup);
  			ret = 0;
-@@ -459,8 +458,8 @@ static int phy_needs_fixup(struct phy_de
+@@ -498,8 +497,8 @@ static int phy_needs_fixup(struct phy_de
  		if (strcmp(fixup->bus_id, PHY_ANY_ID) != 0)
  			return 0;
  
@@ -75,7 +75,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
  		if (fixup->phy_uid != PHY_ANY_UID)
  			return 0;
  
-@@ -507,15 +506,14 @@ static int phy_bus_match(struct device *
+@@ -546,15 +545,14 @@ static int phy_bus_match(struct device *
  			if (phydev->c45_ids.device_ids[i] == 0xffffffff)
  				continue;
  
@@ -97,7 +97,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
  
 --- a/drivers/net/phy/phylink.c
 +++ b/drivers/net/phy/phylink.c
-@@ -3151,8 +3151,8 @@ static void phylink_sfp_link_up(void *up
+@@ -3152,8 +3152,8 @@ static void phylink_sfp_link_up(void *up
   */
  static bool phylink_phy_no_inband(struct phy_device *phy)
  {

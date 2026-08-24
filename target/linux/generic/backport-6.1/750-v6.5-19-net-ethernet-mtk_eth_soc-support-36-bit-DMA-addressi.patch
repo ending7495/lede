@@ -90,7 +90,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  					 ring->buf_size, DMA_FROM_DEVICE);
  			mtk_rx_put_buff(ring, ring->data[i], false);
  		}
-@@ -4706,6 +4724,14 @@ static int mtk_probe(struct platform_dev
+@@ -4715,6 +4733,14 @@ static int mtk_probe(struct platform_dev
  		}
  	}
  

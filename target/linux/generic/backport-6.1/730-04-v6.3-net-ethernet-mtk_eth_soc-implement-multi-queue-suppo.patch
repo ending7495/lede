@@ -489,7 +489,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  	return 0;
  }
  
-@@ -3766,8 +3922,12 @@ static int mtk_unreg_dev(struct mtk_eth
+@@ -3775,8 +3931,12 @@ static int mtk_unreg_dev(struct mtk_eth
  	int i;
  
  	for (i = 0; i < MTK_MAC_COUNT; i++) {
@@ -502,7 +502,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  		unregister_netdev(eth->netdev[i]);
  	}
  
-@@ -3984,6 +4144,23 @@ static int mtk_set_rxnfc(struct net_devi
+@@ -3993,6 +4153,23 @@ static int mtk_set_rxnfc(struct net_devi
  	return ret;
  }
  
@@ -526,7 +526,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  static const struct ethtool_ops mtk_ethtool_ops = {
  	.get_link_ksettings	= mtk_get_link_ksettings,
  	.set_link_ksettings	= mtk_set_link_ksettings,
-@@ -4018,6 +4195,7 @@ static const struct net_device_ops mtk_n
+@@ -4027,6 +4204,7 @@ static const struct net_device_ops mtk_n
  	.ndo_setup_tc		= mtk_eth_setup_tc,
  	.ndo_bpf		= mtk_xdp,
  	.ndo_xdp_xmit		= mtk_xdp_xmit,
@@ -534,7 +534,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  };
  
  static int mtk_add_mac(struct mtk_eth *eth, struct device_node *np)
-@@ -4027,6 +4205,7 @@ static int mtk_add_mac(struct mtk_eth *e
+@@ -4036,6 +4214,7 @@ static int mtk_add_mac(struct mtk_eth *e
  	struct phylink *phylink;
  	struct mtk_mac *mac;
  	int id, err;
@@ -542,7 +542,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  
  	if (!_id) {
  		dev_err(eth->dev, "missing mac id\n");
-@@ -4044,7 +4223,10 @@ static int mtk_add_mac(struct mtk_eth *e
+@@ -4053,7 +4232,10 @@ static int mtk_add_mac(struct mtk_eth *e
  		return -EINVAL;
  	}
  
@@ -554,7 +554,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
  	if (!eth->netdev[id]) {
  		dev_err(eth->dev, "alloc_etherdev failed\n");
  		return -ENOMEM;
-@@ -4152,6 +4334,11 @@ static int mtk_add_mac(struct mtk_eth *e
+@@ -4161,6 +4343,11 @@ static int mtk_add_mac(struct mtk_eth *e
  	else
  		eth->netdev[id]->max_mtu = MTK_MAX_RX_LENGTH_2K - MTK_RX_ETH_HLEN;
  
