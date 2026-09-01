@@ -48,7 +48,9 @@ endef
 define Package/xtables-legacy
 $(call Package/iptables/Default)
   TITLE:=IP firewall administration tool
+  MENU:=1
   DEPENDS+= +kmod-ipt-core +libip4tc +IPV6:libip6tc +libiptext +IPV6:libiptext6 +libxtables
+  PROVIDES:=iptables-legacy iptables-zz-legacy
 endef
 
 define Package/iptables-zz-legacy
@@ -143,17 +145,7 @@ endef
 define Package/iptables-nft
 $(call Package/iptables/Default)
   TITLE:=IP firewall administration tool nft
-  DEPENDS:=+kmod-ipt-core +xtables-nft
-  PROVIDES:=iptables
-  ALTERNATIVES:=\
-    200:/usr/sbin/iptables:xtables-nft-multi \
-    200:/usr/sbin/iptables-restore:xtables-nft-multi \
-    200:/usr/sbin/iptables-save:xtables-nft-multi \
-    200:/usr/sbin/iptables-nft:xtables-nft-multi \
-    200:/usr/sbin/iptables-nft-restore:xtables-nft-multi \
-    200:/usr/sbin/iptables-nft-save:xtables-nft-multi \
-    200:/usr/sbin/iptables-restore-translate:xtables-nft-multi \
-    200:/usr/sbin/iptables-translate:xtables-nft-multi
+  DEPENDS:=iptables @IPTABLES_NFTABLES +libiptext-nft
 endef
 
 define Package/iptables-nft/description
@@ -488,7 +480,7 @@ endef
 
 define Package/ip6tables-nft
 $(call Package/iptables/Default)
-  DEPENDS:=@IPV6 +kmod-ip6tables +xtables-nft
+  DEPENDS:=ip6tables @IPTABLES_NFTABLES +libiptext-nft
   TITLE:=IP firewall administration tool nft
   PROVIDES:=ip6tables
   ALTERNATIVES:=\
@@ -571,7 +563,7 @@ define Package/libiptext-nft
  CATEGORY:=Libraries
  TITLE:=IPv4/IPv6 firewall - shared libiptext nft library
  ABI_VERSION:=0
- DEPENDS:=+libxtables
+ DEPENDS:=@IPTABLES_NFTABLES +libxtables
 endef
 
 define Package/libxtables
@@ -582,14 +574,6 @@ define Package/libxtables
  MENU:=1
  ABI_VERSION:=12
  DEPENDS:=+IPTABLES_CONNLABEL:libnetfilter-conntrack
-endef
-
-define Package/libxtables/config
-  config IPTABLES_CONNLABEL
-	bool "Enable Connlabel support"
-	default n
-	help
-		This enable connlabel support in iptables.
 endef
 
 TARGET_CPPFLAGS := \
@@ -743,10 +727,7 @@ $(eval $(call BuildPackage,libip6tc))
 $(eval $(call BuildPackage,libiptext))
 $(eval $(call BuildPackage,libiptext6))
 $(eval $(call BuildPackage,libiptext-nft))
-$(eval $(call BuildPackage,xtables-legacy))
-$(eval $(call BuildPackage,xtables-nft))
-$(eval $(call BuildPackage,arptables-nft))
-$(eval $(call BuildPackage,ebtables-nft))
+$(eval $(call BuildPackage,iptables))
 $(eval $(call BuildPackage,iptables-nft))
 $(eval $(call BuildPackage,iptables-zz-legacy))
 $(eval $(call BuildPlugin,iptables-mod-conntrack-extra,$(IPT_CONNTRACK_EXTRA-m)))
