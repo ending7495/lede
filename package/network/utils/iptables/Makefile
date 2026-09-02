@@ -529,6 +529,7 @@ $(call Package/iptables/Default)
   CATEGORY:=Libraries
   TITLE:=IPv4 firewall - shared libiptc library
   ABI_VERSION:=2
+  DEPENDS:=+libiptext
 endef
 
 define Package/libip6tc
@@ -537,6 +538,7 @@ $(call Package/iptables/Default)
   CATEGORY:=Libraries
   TITLE:=IPv6 firewall - shared libiptc library
   ABI_VERSION:=2
+  DEPENDS:=+libiptext6
 endef
 
 define Package/libiptext
