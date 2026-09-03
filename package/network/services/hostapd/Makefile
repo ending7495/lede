@@ -725,7 +725,6 @@ endef
 define Package/hostapd-common/install
 	$(INSTALL_DIR) \
 	  $(1)/etc/capabilities \
-	  $(1)/etc/rc.button \
 	  $(1)/etc/hotplug.d/ieee80211 \
 	  $(1)/etc/init.d $(1)/lib/netifd \
 	  $(1)/usr/share/acl.d
