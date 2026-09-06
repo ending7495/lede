@@ -17,12 +17,36 @@ PKG_CPE_ID:=cpe:/a:kernel:util-linux
 include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/meson.mk
 
-MESON_HOST_ARGS += \
-	$(if $(findstring y,$(YEAR_2038)),,-Dallow-32bit-time=true) \
-	-Dauto_features=disabled \
-	-Dbuild-hexdump=enabled \
-	-Dbuild-libuuid=enabled \
-	-Dncurses=enabled \
-	-Dprogram-tests=false
+HOST_CONFIGURE_ARGS += \
+	--with-pic \
+	--disable-shared \
+	--disable-nls \
+	--disable-all-programs \
+	--enable-fdisks \
+	--enable-hexdump \
+	--enable-libblkid \
+	--enable-libfdisk \
+	--enable-libsmartcols \
+	--enable-libuuid \
+	--without-util \
+	--without-selinux \
+	--without-audit \
+	--without-udev \
+	--without-readline \
+	--without-utempter \
+	--without-cap-ng \
+	--without-libz \
+	--without-libmagic \
+	--without-user \
+	--without-btrfs \
+	--without-systemd \
+	--without-smack \
+	--without-econf \
+	--without-python \
+	--without-cryptsetup
+
+define Host/Uninstall
+	-$(call Host/Compile/Default,uninstall)
+endef
 
 $(eval $(call HostBuild))
